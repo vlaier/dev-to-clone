@@ -1,5 +1,5 @@
 import firebase from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { GoogleAuthProvider, getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
@@ -16,5 +16,6 @@ if (!firebase.getApps().length) {
   firebase.initializeApp(firebaseConfig);
 }
 export const auth = getAuth();
+export const googleAuthProvider = new GoogleAuthProvider();
 export const firestore = getFirestore();
 export const storage = getStorage();
