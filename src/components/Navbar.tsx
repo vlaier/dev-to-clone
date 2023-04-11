@@ -1,6 +1,5 @@
 import Link from 'next/link';
 // Navbar styles
-import styles from '@/styles/Navbar.module.css';
 
 export default function Navbar() {
   // mockup user and username
@@ -28,7 +27,7 @@ export default function Navbar() {
             </li>
             <li>
               <Link href={`/${username}`}>
-                <img src={user?.photoURL} />
+                <img src={user?.photoURL} alt="user profile picture" />
               </Link>
             </li>
           </>
