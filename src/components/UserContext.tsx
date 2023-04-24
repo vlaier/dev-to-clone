@@ -1,17 +1,18 @@
-import { createContext, useContext } from 'react';
-
-interface User {
-  uid: string;
-  email: string;
-  photoURL: string;
-  username: string;
+import { useUserData } from '@/lib/hooks';
+import { User } from 'firebase/auth';
+import { createContext } from 'react';
+interface AuthContextInterface {
+  user: User | null | undefined;
+  username: string | null | undefined;
 }
-const UserContext = createContext<null | User>(null);
+export const UserContext = createContext<null | AuthContextInterface>(null);
 export const UserContextProvider = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
-  return <UserContext.Provider value={null}>{children}</UserContext.Provider>;
+  const userData = useUserData();
+  return (
+    <UserContext.Provider value={userData}>{children}</UserContext.Provider>
+  );
 };
-export const useUser = () => useContext(UserContext);
