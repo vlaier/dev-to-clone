@@ -1,7 +1,7 @@
 import { signInWithPopup } from 'firebase/auth';
 import { auth, googleAuthProvider } from '../lib/firebase';
 import { toast } from 'react-hot-toast';
-// Should pop up toast error message if sign in fails
+import { useUserData } from '@/lib/hooks';
 const SignInButton = () => {
   const signInWithGoogle = async () => {
     try {
@@ -24,18 +24,25 @@ const UsernameForm = () => {
   return <h1>TODO: UsernameForm</h1>;
 };
 export const EnterPage = () => {
-  const user = null;
-  const username = null;
+  const { user, username } = useUserData();
   return (
     <main>
       {user ? (
         !username ? (
-          <UsernameForm />
+          <>
+            <UsernameForm />
+            {JSON.stringify(user)}
+          </>
         ) : (
-          <SignOutButton />
+          <>
+            <SignOutButton />
+            {JSON.stringify(user)}
+          </>
         )
       ) : (
-        <SignInButton />
+        <>
+          <SignInButton />
+        </>
       )}
     </main>
   );
