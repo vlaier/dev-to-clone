@@ -1,16 +1,8 @@
 import Link from 'next/link';
-// Navbar styles
+import { useUserData } from '@/lib/hooks';
 
 export default function Navbar() {
-  // mockup user object and username:
-  const user = {
-    uid: '123',
-    email: '',
-    photoURL:
-      'https://pbs.twimg.com/profile_images/1361039856870400000/6QZ7Q9Zg_400x400.jpg',
-    username: 'johndoe',
-  };
-  const username = user?.username;
+  const { user, username } = useUserData();
 
   return (
     <nav className="navbar">
@@ -29,9 +21,11 @@ export default function Navbar() {
               </Link>
             </li>
             <li>
-              <Link href={`/${username}`}>
-                <img src={user?.photoURL} alt="user profile picture" />
-              </Link>
+              {user?.photoURL && (
+                <Link href={`/${username}`}>
+                  <img src={user.photoURL} alt="user profile picture" />
+                </Link>
+              )}
             </li>
           </>
         )}
