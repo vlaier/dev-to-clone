@@ -2,8 +2,15 @@ import Link from 'next/link';
 // Navbar styles
 
 export default function Navbar() {
-  const user = null;
-  const username = null;
+  // mockup user object and username:
+  const user = {
+    uid: '123',
+    email: '',
+    photoURL:
+      'https://pbs.twimg.com/profile_images/1361039856870400000/6QZ7Q9Zg_400x400.jpg',
+    username: 'johndoe',
+  };
+  const username = user?.username;
 
   return (
     <nav className="navbar">
