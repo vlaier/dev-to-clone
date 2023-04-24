@@ -1,8 +1,15 @@
-import firebase from 'firebase/app';
+import { getApps, getApp, initializeApp } from 'firebase/app';
 import { GoogleAuthProvider, getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
-
+interface Config {
+  apiKey: string;
+  authDomain: string;
+  projectId: string;
+  storageBucket: string;
+  messagingSenderId: string;
+  appId: string;
+}
 const firebaseConfig = {
   apiKey: 'AIzaSyBY1i_7Kx9S2NpkYdewnTg_x_W9o8i-mkk',
   authDomain: 'dev-to-clone-ace07.firebaseapp.com',
@@ -11,11 +18,23 @@ const firebaseConfig = {
   messagingSenderId: '154565026848',
   appId: '1:154565026848:web:4565ea564e53ceeba10845',
 };
-
-if (!firebase.getApps().length) {
-  firebase.initializeApp(firebaseConfig);
+let app = null;
+if (!getApps().length) {
+  app = initializeApp(firebaseConfig);
+  if (app === null) {
+    throw new Error('Firebase app not initialized');
+  }
 }
-export const auth = getAuth();
+
+const createFirebaseApp = (config: Config) => {
+  try {
+    return getApp();
+  } catch {
+    return initializeApp(config);
+  }
+};
+const firebaseApp = createFirebaseApp(firebaseConfig);
+export const auth = getAuth(firebaseApp);
 export const googleAuthProvider = new GoogleAuthProvider();
 export const firestore = getFirestore();
 export const storage = getStorage();
