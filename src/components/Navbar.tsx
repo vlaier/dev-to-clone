@@ -2,12 +2,8 @@ import Link from 'next/link';
 // Navbar styles
 
 export default function Navbar() {
-  // mockup user and username
-  const user = {
-    username: 'johndoe',
-    photoURL: '/hacker.png',
-  };
-  const username = user?.username;
+  const user = null;
+  const username = null;
 
   return (
     <nav className="navbar">
