@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import { useUserData } from '@/lib/hooks';
+import { useUser } from '@/lib/hooks';
 
-export default function Navbar() {
-  const { user, username } = useUserData();
+const Navbar = () => {
+  const { user, username } = useUser();
 
   return (
     <nav className="navbar">
@@ -41,4 +41,5 @@ export default function Navbar() {
       </ul>
     </nav>
   );
-}
+};
+export default Navbar;
