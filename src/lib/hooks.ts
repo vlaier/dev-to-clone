@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from './firebase';
 import { doc, getFirestore, onSnapshot } from 'firebase/firestore';
+import { UserContext } from '@/components/UserContext';
 export const useUserData = () => {
   // get user from firebase auth state
   const [user] = useAuthState(auth);
@@ -19,5 +20,9 @@ export const useUserData = () => {
     }
     return unsubscribe;
   }, [user]);
+  return { user, username };
+};
+export const useUser = () => {
+  const { user, username } = useContext(UserContext);
   return { user, username };
 };
