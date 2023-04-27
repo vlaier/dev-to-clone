@@ -1,7 +1,8 @@
 import { signInWithPopup } from 'firebase/auth';
 import { auth, googleAuthProvider } from '../lib/firebase';
 import { toast } from 'react-hot-toast';
-import { useUserData } from '@/lib/hooks';
+import { useUser } from '@/lib/hooks';
+import UsernameForm from '@/components/UsernameForm';
 const SignInButton = () => {
   const signInWithGoogle = async () => {
     try {
@@ -20,23 +21,19 @@ const SignInButton = () => {
 const SignOutButton = () => {
   return <button onClick={auth.signOut}>Sign Out</button>;
 };
-const UsernameForm = () => {
-  return <h1>TODO: UsernameForm</h1>;
-};
+
 export const EnterPage = () => {
-  const { user, username } = useUserData();
+  const { user, username } = useUser();
   return (
     <main>
       {user ? (
         !username ? (
           <>
             <UsernameForm />
-            {JSON.stringify(user)}
           </>
         ) : (
           <>
             <SignOutButton />
-            {JSON.stringify(user)}
           </>
         )
       ) : (
