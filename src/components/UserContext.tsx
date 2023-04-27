@@ -5,7 +5,10 @@ interface AuthContextInterface {
   user: User | null | undefined;
   username: string | null | undefined;
 }
-export const UserContext = createContext<null | AuthContextInterface>(null);
+export const UserContext = createContext<AuthContextInterface>({
+  user: null,
+  username: null,
+});
 export const UserContextProvider = ({
   children,
 }: {
