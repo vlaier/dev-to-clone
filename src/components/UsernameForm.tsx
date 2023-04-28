@@ -3,6 +3,25 @@ import { useUser } from '@/lib/hooks';
 import { doc, getDoc, getFirestore, writeBatch } from 'firebase/firestore';
 import { useEffect, useState, useCallback } from 'react';
 import debounce from 'lodash.debounce';
+const UsernameMessage = ({
+  username,
+  isValid,
+  loading,
+}: {
+  username: string;
+  isValid: boolean;
+  loading: boolean;
+}) => {
+  if (loading) {
+    return <p>Checking...</p>;
+  } else if (isValid) {
+    return <p className="text-success">{username} is available!</p>;
+  } else if (username && !isValid) {
+    return <p className="text-danger">That username is taken!</p>;
+  } else {
+    return <p></p>;
+  }
+};
 const UsernameForm = () => {
   const [formValue, setFormValue] = useState('');
   const [isValid, setIsValid] = useState(false);
@@ -55,6 +74,11 @@ const UsernameForm = () => {
           placeholder="username"
           value={formValue}
           onChange={onChange}
+        />
+        <UsernameMessage
+          username={formValue}
+          isValid={isValid}
+          loading={loading}
         />
         <button type="submit" className="btn-green" disabled={!isValid}>
           Choose
