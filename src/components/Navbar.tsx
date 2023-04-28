@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useUser } from '@/lib/hooks';
-
+import Image from 'next/image';
 const Navbar = () => {
   const { user, username } = useUser();
 
@@ -23,7 +23,12 @@ const Navbar = () => {
             <li>
               {user?.photoURL && (
                 <Link href={`/${username}`}>
-                  <img src={user.photoURL} alt="user profile picture" />
+                  <Image
+                    src={user.photoURL}
+                    alt="user profile picture"
+                    width={100}
+                    height={100}
+                  />
                 </Link>
               )}
             </li>
