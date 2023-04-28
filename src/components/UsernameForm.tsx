@@ -1,6 +1,8 @@
+import { firestore } from '@/lib/firebase';
 import { useUser } from '@/lib/hooks';
-import React, { useEffect, useState } from 'react';
-
+import { doc, getDoc, getFirestore, writeBatch } from 'firebase/firestore';
+import { useEffect, useState, useCallback } from 'react';
+import debounce from 'lodash.debounce';
 const UsernameForm = () => {
   const [formValue, setFormValue] = useState('');
   const [isValid, setIsValid] = useState(false);
@@ -15,15 +17,39 @@ const UsernameForm = () => {
       setLoading(true);
     }
   };
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // create refs for both documents
+    const userDoc = doc(firestore, `users/${user?.uid}`);
+    const usernameDoc = doc(firestore, `usernames/${formValue}`);
+    const batch = writeBatch(getFirestore());
+    batch.set(userDoc, {
+      username: formValue,
+      photoURL: user?.photoURL,
+      displayName: user?.displayName,
+    });
+    batch.set(usernameDoc, { uid: user?.uid });
+    await batch.commit();
+  };
+  const checkUsername = useCallback(
+    debounce(async (username: string) => {
+      if (username.length >= 3) {
+        const ref = doc(firestore, 'usernames', username);
+        const snap = await getDoc(ref);
+        setIsValid(!snap.exists());
+        setLoading(false);
+      }
+    }, 500),
+    []
+  );
 
-  const checkUsername = async (username: string) => {};
   useEffect(() => {
     checkUsername(formValue);
   }, [formValue]);
   return (
     <section>
       <h3>Choose Username</h3>
-      <form onSubmit={() => console.log('submit')}>
+      <form onSubmit={onSubmit}>
         <input
           name="username"
           placeholder="username"
@@ -41,6 +67,8 @@ const UsernameForm = () => {
         Loading: {loading.toString()}
         <br />
         Username Valid: {isValid.toString()}
+        <br />
+        User String: {JSON.stringify(user)}
       </div>
     </section>
   );
