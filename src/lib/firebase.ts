@@ -1,6 +1,16 @@
 import { getApps, getApp, initializeApp } from 'firebase/app';
 import { GoogleAuthProvider, getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import {
+  DocumentData,
+  DocumentSnapshot,
+  collection,
+  doc,
+  getDocs,
+  getFirestore,
+  limit,
+  query,
+  where,
+} from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 interface Config {
   apiKey: string;
@@ -38,3 +48,22 @@ export const auth = getAuth(firebaseApp);
 export const googleAuthProvider = new GoogleAuthProvider();
 export const firestore = getFirestore();
 export const storage = getStorage();
+
+export const getUserWithUsername = async (username: string) => {
+  const userQuery = query(
+    collection(firestore, 'users'),
+    where('username', '==', username),
+    limit(1)
+  );
+  const userDoc = (await getDocs(userQuery)).docs[0];
+  return userDoc;
+};
+
+export const postToJSON = (doc: DocumentSnapshot): DocumentData => {
+  const data = doc.data();
+  return {
+    ...data,
+    createdAt: data?.createdAt.toMillis(),
+    updatedAt: data?.updatedAt.toMillis(),
+  };
+};
