@@ -5,7 +5,7 @@ const PostFeed = ({
   admin = false,
 }: {
   posts: PostData[] | null | undefined;
-  admin: boolean;
+  admin?: boolean;
 }) => {
   return posts ? (
     <>
