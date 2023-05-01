@@ -11,6 +11,7 @@ import {
   query,
   where,
 } from 'firebase/firestore';
+import { PostData } from '@/index';
 
 export default function UserPage({
   user,
@@ -27,7 +28,7 @@ export default function UserPage({
 export async function getServerSideProps({
   query: urlQuery,
 }: GetServerSidePropsContext) {
-  const username = urlQuery.username;
+  const { username } = urlQuery;
   if (typeof username !== 'string') {
     return {
       notFound: true,
@@ -35,7 +36,7 @@ export async function getServerSideProps({
   }
   const userDoc = await getUserWithUsername(username);
   let user = null;
-  let posts: DocumentData[] | null = null;
+  let posts: PostData[] | null = null;
 
   if (userDoc) {
     user = userDoc.data();
