@@ -59,7 +59,7 @@ export const getUserWithUsername = async (username: string) => {
   return userDoc;
 };
 
-export const postToJSON = (doc: DocumentSnapshot): DocumentData => {
+export const postToJSON = (doc: DocumentSnapshot) => {
   const data = doc.data();
   return {
     ...data,
