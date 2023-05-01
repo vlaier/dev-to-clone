@@ -1,17 +1,23 @@
-import { DocumentData } from 'firebase/firestore';
 import Link from 'next/link';
-const PostFeed = ({ posts }: { posts: DocumentData[] | null }) => {
+import { PostData } from '..';
+const PostFeed = ({
+  posts,
+  admin = false,
+}: {
+  posts: PostData[] | null | undefined;
+  admin: boolean;
+}) => {
   return posts ? (
     <>
       {posts.map((post) => (
-        <PostItem post={post} key={post.slug} />
+        <PostItem post={post} key={post.slug} admin={admin} />
       ))}
     </>
   ) : (
     <div>No posts to display</div>
   );
 };
-const PostItem = ({ post }: { post: DocumentData }) => {
+const PostItem = ({ post, admin }: { post: PostData; admin: boolean }) => {
   // Naive method to calc word count and read time
   const wordCount = post?.content.trim().split(/\s+/g).length;
   const minutesToRead = (wordCount / 100 + 1).toFixed(0);
